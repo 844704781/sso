@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: sso
+  datasource:
+    url: jdbc:mysql://192.168.1.11:3306/sso?useSSL=false&&characterEncoding=UTF-8
+    username: root
+    password: 123123
+
+server:
+  servlet:
+    context-path: /sso
+
+logging:
+  level:
+    com:
+      watermelon:
+        sso:
+          dao: DEBUG
+
