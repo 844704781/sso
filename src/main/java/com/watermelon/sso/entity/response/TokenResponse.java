@@ -1,23 +1,20 @@
 package com.watermelon.sso.entity.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
- * Token响应
+ * 令牌响应
  */
 @Data
 public class TokenResponse {
 
     /**
-     * 令牌
+     * 令牌（前端访问使用）
      */
-    @JsonProperty("token")
-    private String token;
+    private String access_token;
 
     /**
      * 过期时间（毫秒时间戳）
      */
-    @JsonProperty("expiration")
     private Long expiration;
 } 

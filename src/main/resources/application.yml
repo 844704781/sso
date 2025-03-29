@@ -2,38 +2,79 @@ spring:
   application:
     name: sso
   datasource:
-    url: jdbc:mysql://192.168.1.11:3306/sso?useSSL=false&&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/sso?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
-    password: 123123
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
   # 邮箱配置
   mail:
-    host: smtp.exmail.qq.com
-    port: 465
-    username: service@arcnisoft.com
-    password: Yeyuan123...
+    host: smtp.example.com
+    port: 587
+    username: your_email@example.com
+    password: your_email_password
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+            required: true
   # Redis配置
   data:
     redis:
-      host: 192.168.1.11
+      host: localhost
       port: 6379
-      password: 123123
-      timeout: 2000
       database: 0
+      # 如果有密码，取消下面的注释并设置密码
+      # password: your_password
+      timeout: 10000
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1
+          max-idle: 8
+          min-idle: 0
 
 server:
+  port: 8080
   servlet:
-    context-path: /sso
+    context-path: /
 
 logging:
   level:
-    com:
-      watermelon:
-        sso:
-          dao: DEBUG
+    root: info
+    com.watermelon.sso: debug
+  file:
+    name: logs/sso.log
+
+# MyBatis-Plus配置  
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.watermelon.sso.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: is_deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# 应用自定义配置
+app:
+  # 邮箱验证码配置
+  email:
+    # 验证码有效期（分钟）
+    code-expire: 10
+    # 每日发送限制
+    daily-limit: 20
+    # 验证码长度
+    code-length: 6
+  
+  # 令牌配置
+  token:
+    # 访问令牌有效期（小时）
+    access-expire: 24
+    # 内部令牌有效期（天）
+    internal-expire: 30
 

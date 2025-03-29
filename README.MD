@@ -556,7 +556,7 @@ CREATE TABLE `system_key_value`
     "code": 0,
     "message": "success",
     "data": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "expiration": 1680511479000
     }
   }
@@ -1009,7 +1009,7 @@ CREATE TABLE `system_key_value`
       "uuid": "u1234567890",
       "nick_name": "",
       "email": "user@example.com",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "expiration": 1680511479000
     }
   }
@@ -1033,7 +1033,7 @@ CREATE TABLE `system_key_value`
       "uuid": "u1234567890",
       "nick_name": "用户昵称",
       "email": "user@example.com",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "expiration": 1680511479000,
       "avatar_url": "https://example.com/avatar.jpg"
     }
@@ -1044,7 +1044,7 @@ CREATE TABLE `system_key_value`
 - URL: `POST /sso/auth/logout`
 - 请求头:
   ```
-  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+  Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   ```
 - 响应体:
   ```json
@@ -1059,7 +1059,7 @@ CREATE TABLE `system_key_value`
 - URL: `POST /sso/auth/token/refresh`
 - 请求头:
   ```
-  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+  Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   ```
 - 响应体:
   ```json
@@ -1067,7 +1067,7 @@ CREATE TABLE `system_key_value`
     "code": 0,
     "message": "success",
     "data": {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "expiration": 1680511479000
     }
   }

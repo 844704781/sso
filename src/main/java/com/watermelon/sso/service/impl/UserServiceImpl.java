@@ -26,11 +26,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 /**
  * 用户管理Service实现
@@ -55,6 +61,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TokenService tokenService;
 
     @Override
     public PageResponse<UserResponse> getUserPage(Integer page, Integer size, UserQueryRequest request) {
@@ -145,11 +154,11 @@ public class UserServiceImpl implements UserService {
         // 查询用户
         User user = getUserByUuid(uuid);
 
-        // 生成token（这里使用UUID作为简单示例，实际项目中应使用JWT或其他Token生成方式）
-        String token = UUID.randomUUID().toString().replace("-", "");
+        // 生成内部token
+        String internalToken = UUID.randomUUID().toString().replace("-", "");
 
-        // 设置token和过期时间
-        user.setToken(token);
+        // 设置内部token和过期时间
+        user.setToken(internalToken);
         user.setExpiration(request.getExpiration());
 
         // 保存更新
@@ -158,9 +167,20 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(ResultCode.USER_TOKEN_FAILED, "Failed to generate user token");
         }
 
+        // 创建JWT载荷
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("uuid", user.getUuid());
+        claims.put("email", user.getEmail());
+        
+        // 使用TokenService生成并存储访问令牌
+        String accessToken = tokenService.generateAndStoreToken(user.getUuid(), claims, request.getExpiration());
+        if (accessToken == null) {
+            throw new ServiceException(ResultCode.USER_TOKEN_FAILED, "Failed to generate access token");
+        }
+
         // 构建响应
         TokenResponse response = new TokenResponse();
-        response.setToken(token);
+        response.setAccess_token(accessToken);
         response.setExpiration(request.getExpiration());
 
         return response;

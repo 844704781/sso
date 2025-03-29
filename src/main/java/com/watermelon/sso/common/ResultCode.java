@@ -31,4 +31,8 @@ public class ResultCode {
     public static final int EMAIL_SEND_LIMIT_EXCEEDED = 16000; // 邮箱验证码发送频率超出限制
     public static final int EMAIL_CODE_INVALID = 16001;       // 邮箱验证码无效
     public static final int EMAIL_CODE_EXPIRED = 16002;       // 邮箱验证码已过期
+    public static final int AUTH_FAILED = 16003;              // 认证失败
+    public static final int PASSWORD_INCORRECT = 16004;       // 密码不正确
+    public static final int TOKEN_INVALID = 16005;            // 令牌无效
+    public static final int TOKEN_EXPIRED = 16006;            // 令牌已过期
 }
