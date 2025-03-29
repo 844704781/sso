@@ -1,11 +1,6 @@
 package com.watermelon.sso.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -44,9 +39,14 @@ public class User {
     private String password;
 
     /**
-     * token
+     * apiToken，用于第三方服务接入
      */
-    private String token;
+    private String apiToken;
+
+    /**
+     * apiToken过期时间，用于第三方服务接入
+     */
+    private Long expiration;
 
     /**
      * 是否暂停使用,0:否,1:是
@@ -63,10 +63,6 @@ public class User {
      */
     private String email;
 
-    /**
-     * token过期时间
-     */
-    private Long expiration;
 
     /**
      * 用户头像

@@ -556,7 +556,7 @@ CREATE TABLE `system_key_value`
     "code": 0,
     "message": "success",
     "data": {
-      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "api_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
       "expiration": 1680511479000
     }
   }
@@ -1010,7 +1010,9 @@ CREATE TABLE `system_key_value`
       "nick_name": "",
       "email": "user@example.com",
       "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-      "expiration": 1680511479000
+      "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "access_token_expiration": 7200,
+      "refresh_token_expiration": 604800
     }
   }
   ```
@@ -1034,7 +1036,9 @@ CREATE TABLE `system_key_value`
       "nick_name": "用户昵称",
       "email": "user@example.com",
       "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-      "expiration": 1680511479000,
+      "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...", 
+      "access_token_expiration": 7200,  // access token有效期（秒）
+      "refresh_token_expiration": 604800,  // refresh token有效期（秒）
       "avatar_url": "https://example.com/avatar.jpg"
     }
   }
@@ -1042,9 +1046,10 @@ CREATE TABLE `system_key_value`
 
 #### 退出登录
 - URL: `POST /sso/auth/logout`
-- 请求头:
+- 请求头修改:
   ```
   Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+  Refresh-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   ```
 - 响应体:
   ```json
@@ -1057,18 +1062,20 @@ CREATE TABLE `system_key_value`
 
 #### 刷新令牌
 - URL: `POST /sso/auth/token/refresh`
-- 请求头:
+- 请求头修改:
   ```
-  Access-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+  Refresh-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...  // 使用refresh_token而不是access_token
   ```
-- 响应体:
+- 响应体修改为:
   ```json
   {
     "code": 0,
-    "message": "success",
+    "message": "success", 
     "data": {
       "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-      "expiration": 1680511479000
+      "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "access_token_expiration": 7200,
+      "refresh_token_expiration": 604800
     }
   }
   ```

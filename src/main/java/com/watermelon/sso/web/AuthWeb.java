@@ -27,12 +27,10 @@ public class AuthWeb {
 
     @Autowired
     private EmailService emailService;
-    
+
     @Autowired
     private AuthService authService;
-    
-    @Autowired
-    private TokenService tokenService;
+
 
     /**
      * 发送邮箱验证码
@@ -65,7 +63,7 @@ public class AuthWeb {
             return Result.error(500, "Failed to verify email code");
         }
     }
-    
+
     /**
      * 用户邮箱注册
      */
@@ -82,7 +80,7 @@ public class AuthWeb {
             return Result.error(500, "Registration failed");
         }
     }
-    
+
     /**
      * 用户邮箱登录
      */
@@ -99,7 +97,7 @@ public class AuthWeb {
             return Result.error(500, "Login failed");
         }
     }
-    
+
     /**
      * 退出登录
      */
@@ -113,7 +111,7 @@ public class AuthWeb {
             return Result.error(500, "Logout failed");
         }
     }
-    
+
     /**
      * 刷新令牌
      */
@@ -128,24 +126,6 @@ public class AuthWeb {
         } catch (Exception e) {
             log.error("Token refresh failed with unexpected error: {}", e.getMessage());
             return Result.error(500, "Token refresh failed");
-        }
-    }
-    
-    /**
-     * 验证令牌有效性
-     */
-    @GetMapping("/token/validate")
-    public Result<Boolean> validateToken(@RequestHeader(value = "Access-Token", required = false) String token) {
-        try {
-            if (token == null) {
-                return Result.success(false);
-            }
-            
-            String uuid = tokenService.validateToken(token);
-            return Result.success(uuid != null);
-        } catch (Exception e) {
-            log.error("Token validation failed: {}", e.getMessage());
-            return Result.error(500, "Token validation failed");
         }
     }
 } 

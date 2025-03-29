@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 public class UserLoginRequest {
-    
+
     /**
      * 邮箱地址
      */
@@ -18,7 +18,7 @@ public class UserLoginRequest {
     @Email(message = "Invalid email format")
     @JsonProperty("email")
     private String email;
-    
+
     /**
      * 密码
      */

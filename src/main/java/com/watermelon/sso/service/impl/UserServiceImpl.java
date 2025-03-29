@@ -5,20 +5,13 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.watermelon.sso.common.ResultCode;
 import com.watermelon.sso.common.ServiceException;
-import com.watermelon.sso.entity.Role;
-import com.watermelon.sso.entity.User;
-import com.watermelon.sso.entity.UserRoleAssociation;
-import com.watermelon.sso.entity.Permission;
-import com.watermelon.sso.entity.RolePermissionAssociation;
+import com.watermelon.sso.entity.*;
 import com.watermelon.sso.entity.common.PageResult;
 import com.watermelon.sso.entity.request.*;
 import com.watermelon.sso.entity.response.*;
-import com.watermelon.sso.manager.RoleManager;
-import com.watermelon.sso.manager.UserManager;
-import com.watermelon.sso.manager.UserRoleAssociationManager;
-import com.watermelon.sso.manager.PermissionManager;
-import com.watermelon.sso.manager.RolePermissionAssociationManager;
+import com.watermelon.sso.manager.*;
 import com.watermelon.sso.service.UserService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,17 +19,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 
 /**
  * 用户管理Service实现
@@ -64,6 +53,30 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TokenService tokenService;
+
+    private static LambdaQueryWrapper<User> setQueryWrapper(UserQueryRequest request) {
+        LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery();
+
+        // 添加查询条件
+        if (request != null) {
+            if (StringUtils.hasText(request.getUuid())) {
+                wrapper.like(User::getUuid, request.getUuid());
+            }
+            if (StringUtils.hasText(request.getNickName())) {
+                wrapper.like(User::getNickName, request.getNickName());
+            }
+            if (StringUtils.hasText(request.getPhone())) {
+                wrapper.like(User::getPhone, request.getPhone());
+            }
+            if (StringUtils.hasText(request.getEmail())) {
+                wrapper.like(User::getEmail, request.getEmail());
+            }
+            if (request.getSuspend() != null) {
+                wrapper.eq(User::getSuspend, request.getSuspend());
+            }
+        }
+        return wrapper;
+    }
 
     @Override
     public PageResponse<UserResponse> getUserPage(Integer page, Integer size, UserQueryRequest request) {
@@ -150,15 +163,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TokenResponse generateUserToken(String uuid, UserTokenRequest request) {
+    public ApiTokenResponse generateApiToken(String uuid, UserTokenRequest request) {
         // 查询用户
         User user = getUserByUuid(uuid);
 
-        // 生成内部token
-        String internalToken = UUID.randomUUID().toString().replace("-", "");
+        String apiToken = RandomStringUtils.randomAlphanumeric(256);
 
         // 设置内部token和过期时间
-        user.setToken(internalToken);
+        user.setApiToken(apiToken);
         user.setExpiration(request.getExpiration());
 
         // 保存更新
@@ -167,22 +179,10 @@ public class UserServiceImpl implements UserService {
             throw new ServiceException(ResultCode.USER_TOKEN_FAILED, "Failed to generate user token");
         }
 
-        // 创建JWT载荷
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("uuid", user.getUuid());
-        claims.put("email", user.getEmail());
-        
-        // 使用TokenService生成并存储访问令牌
-        String accessToken = tokenService.generateAndStoreToken(user.getUuid(), claims, request.getExpiration());
-        if (accessToken == null) {
-            throw new ServiceException(ResultCode.USER_TOKEN_FAILED, "Failed to generate access token");
-        }
-
         // 构建响应
-        TokenResponse response = new TokenResponse();
-        response.setAccess_token(accessToken);
+        ApiTokenResponse response = new ApiTokenResponse();
+        response.setApiToken(apiToken);
         response.setExpiration(request.getExpiration());
-
         return response;
     }
 
@@ -321,30 +321,6 @@ public class UserServiceImpl implements UserService {
         return permissions.stream()
                 .map(this::buildPermissionResponse)
                 .collect(Collectors.toList());
-    }
-
-    private static LambdaQueryWrapper<User> setQueryWrapper(UserQueryRequest request) {
-        LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery();
-
-        // 添加查询条件
-        if (request != null) {
-            if (StringUtils.hasText(request.getUuid())) {
-                wrapper.like(User::getUuid, request.getUuid());
-            }
-            if (StringUtils.hasText(request.getNickName())) {
-                wrapper.like(User::getNickName, request.getNickName());
-            }
-            if (StringUtils.hasText(request.getPhone())) {
-                wrapper.like(User::getPhone, request.getPhone());
-            }
-            if (StringUtils.hasText(request.getEmail())) {
-                wrapper.like(User::getEmail, request.getEmail());
-            }
-            if (request.getSuspend() != null) {
-                wrapper.eq(User::getSuspend, request.getSuspend());
-            }
-        }
-        return wrapper;
     }
 
     /**

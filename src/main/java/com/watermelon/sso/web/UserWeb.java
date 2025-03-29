@@ -77,10 +77,10 @@ public class UserWeb {
      * 生成用户API Token
      */
     @PostMapping("/users/{uuid}/token")
-    public Result<TokenResponse> generateUserToken(
+    public Result<ApiTokenResponse> generateUserToken(
             @PathVariable("uuid") String uuid,
             @RequestBody @Valid UserTokenRequest request) {
-        TokenResponse response = userService.generateUserToken(uuid, request);
+        ApiTokenResponse response = userService.generateApiToken(uuid, request);
         return Result.success(response);
     }
 

@@ -1,14 +1,15 @@
 package com.watermelon.sso.manager;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.watermelon.sso.config.JwtConfig;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -18,19 +19,16 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Service
-public class TokenServiceManager {
-
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private JwtConfig jwtConfig;
+public class AccessTokenManager {
 
     // Redis中存储用户令牌映射的前缀
     private static final String USER_TOKEN_PREFIX = "sso:user:token:";
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private JwtConfig jwtConfig;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     public String generateAndStoreToken(String uuid, Map<String, Object> claims, long expiration) {
         try {
@@ -71,25 +69,25 @@ public class TokenServiceManager {
         try {
             // 使用JWT配置对象从token中提取subject，subject应该是用户的uuid
             String uuid = jwtConfig.extractSubject(token);
-            
+
             // 检查Redis中是否存在该token（是否被撤销）
             String tokenKey = USER_TOKEN_PREFIX + uuid;
             Object tokenInfoObj = redisTemplate.opsForValue().get(tokenKey);
-            
+
             if (tokenInfoObj == null) {
                 log.warn("Token not found in Redis: {}", token);
                 return null;
             }
-            
+
             // 验证token中的uuid与Redis中存储的uuid是否一致
             Map<String, Object> tokenInfo = objectMapper.readValue(tokenInfoObj.toString(), HashMap.class);
             String storedUuid = (String) tokenInfo.get("uuid");
-            
+
             if (!uuid.equals(storedUuid)) {
                 log.warn("Token UUID mismatch: {} vs {}", uuid, storedUuid);
                 return null;
             }
-            
+
             return uuid;
         } catch (Exception e) {
             log.error("Failed to extract or validate UUID from token: {}", e.getMessage());
@@ -128,88 +126,44 @@ public class TokenServiceManager {
         }
     }
 
-    public String refreshToken(String oldToken, long expiration) {
-        // 验证JWT签名
-        if (!jwtConfig.validateToken(oldToken)) {
-            log.warn("Invalid JWT signature for token refresh");
-            return null;
-        }
 
-        String uuid = validateToken(oldToken);
-        if (uuid == null) {
-            log.warn("Cannot refresh invalid token: {}", oldToken);
-            return null;
-        }
-
+    /**
+     * 验证token并获取claims信息
+     *
+     * @param token 需要验证的token
+     * @return claims信息，如果token无效则返回null
+     */
+    public Map<String, Object> validateAndGetClaims(String token) {
         try {
-            // 从JWT中提取subject和claims
-            String subject = jwtConfig.extractSubject(oldToken);
+            // 从Redis中获取token信息
+            String storedToken = (String) redisTemplate.opsForValue().get(token);
+            if (storedToken == null) {
+                log.warn("Token not found in Redis: {}", token);
+                return null;
+            }
 
-            // 获取旧token在Redis中的信息
-            String tokenKey = USER_TOKEN_PREFIX + oldToken;
-            Object tokenInfoObj = redisTemplate.opsForValue().get(tokenKey);
-            Map<String, Object> tokenInfo = objectMapper.readValue(tokenInfoObj.toString(), HashMap.class);
+            // 解析JWT token
+            Claims claims = jwtConfig.extractAllClaims(token);
 
-            // 提取claims
-            Map<String, Object> claims = (Map<String, Object>) tokenInfo.get("claims");
+            // 验证token是否过期
+            Date expiration = claims.getExpiration();
+            if (expiration != null && expiration.before(new Date())) {
+                log.warn("Token has expired: {}", token);
+                // 删除过期的token
+                redisTemplate.delete(token);
+                return null;
+            }
 
-            // 删除旧token
-            redisTemplate.delete(tokenKey);
+            // 将Claims转换为Map
+            Map<String, Object> claimsMap = new HashMap<>(claims);
 
-            // 生成新token
-            return generateAndStoreToken(uuid, claims, expiration);
+            return claimsMap;
+        } catch (JwtException e) {
+            log.error("Failed to validate token: {}", token, e);
+            return null;
         } catch (Exception e) {
-            log.error("Failed to refresh token: {}", e.getMessage());
+            log.error("Unexpected error while validating token: {}", token, e);
             return null;
         }
     }
-
-    public String getUuidFromToken(String token) {
-        if (token == null) {
-            return null;
-        }
-
-        // 验证JWT签名
-        if (!jwtConfig.validateToken(token)) {
-            log.warn("Invalid JWT signature");
-            return null;
-        }
-
-        // 尝试从JWT的subject中获取uuid
-        try {
-            return jwtConfig.extractSubject(token);
-        } catch (Exception e) {
-            log.error("Failed to extract subject from JWT: {}", e.getMessage());
-            return null;
-        }
-    }
-
-    public Long getTokenExpiration(String token) {
-        if (token == null) {
-            return null;
-        }
-
-        // 验证JWT签名
-        if (!jwtConfig.validateToken(token)) {
-            log.warn("Invalid JWT signature");
-            return null;
-        }
-
-        String tokenKey = USER_TOKEN_PREFIX + token;
-        Object tokenInfoObj = redisTemplate.opsForValue().get(tokenKey);
-
-        if (tokenInfoObj == null) {
-            log.warn("Token not found: {}", token);
-            return null;
-        }
-
-        try {
-            // 解析token信息
-            Map<String, Object> tokenInfo = objectMapper.readValue(tokenInfoObj.toString(), HashMap.class);
-            return ((Number) tokenInfo.get("expiration")).longValue();
-        } catch (Exception e) {
-            log.error("Failed to get token expiration: {}", e.getMessage());
-            return null;
-        }
-    }
-} 
+}

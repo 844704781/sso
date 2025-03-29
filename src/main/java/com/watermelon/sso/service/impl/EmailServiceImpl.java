@@ -19,36 +19,26 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class EmailServiceImpl implements EmailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
-
-    @Autowired
-    private StringRedisTemplate redisTemplate;
-
     // 验证码过期时间（分钟）
     private static final int CODE_EXPIRE_MINUTES = 5;
-
     // 验证码长度
     private static final int CODE_LENGTH = 6;
-
     // 邮件主题
     private static final String MAIL_SUBJECT = "验证码";
-
     // 邮件内容模板
     private static final String MAIL_CONTENT_TEMPLATE = "您的验证码是：%s，有效期 %d 分钟，请勿泄露给他人。";
-
     // 验证码Redis key前缀
     private static final String REDIS_KEY_PREFIX = "email:code:";
-
     // 邮箱发送频率限制Redis key前缀
     private static final String REDIS_LIMIT_KEY_PREFIX = "email:limit:";
-
     // 邮箱发送频率限制时间（小时）
     private static final int LIMIT_EXPIRE_HOURS = 6;
-
     // 邮箱发送频率限制次数
     private static final int LIMIT_MAX_COUNT = 20;
-
+    @Autowired
+    private JavaMailSender mailSender;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
     @Value("${spring.mail.username}")
     private String mailFrom;
 

@@ -1,5 +1,6 @@
 package com.watermelon.sso.entity.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
@@ -7,34 +8,44 @@ import lombok.Data;
  */
 @Data
 public class LoginResponse {
-    
+
     /**
      * 用户编号
      */
     private String uuid;
-    
+
     /**
      * 用户昵称
      */
-    private String nick_name;
-    
+    @JsonProperty("nick_name")
+    private String nickName;
+
     /**
      * 邮箱地址
      */
     private String email;
-    
+
     /**
      * 令牌（前端访问使用）
      */
-    private String access_token;
-    
+    @JsonProperty("access_token")
+    private String accessToken;
+
     /**
      * 过期时间（毫秒时间戳）
      */
-    private Long expiration;
-    
+    @JsonProperty("access_token_expiration")
+    private long accessTokenExpiration;
+
+    @JsonProperty("refresh_token")
+    private String refreshToken;
+
+    @JsonProperty("refresh_token_expiration")
+    private long refreshTokenExpiration;
+
     /**
      * 头像URL
      */
-    private String avatar_url;
+    @JsonProperty("avatar_url")
+    private String avatarUrl;
 } 

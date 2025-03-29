@@ -8,11 +8,10 @@ import com.watermelon.sso.service.PermissionService;
 import com.watermelon.sso.service.RoleService;
 import com.watermelon.sso.service.SysSystemService;
 import com.watermelon.sso.service.SystemKeyValueService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
 
 /**
  * 系统管理接口

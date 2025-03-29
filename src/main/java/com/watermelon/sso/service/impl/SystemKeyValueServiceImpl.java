@@ -5,28 +5,23 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
 import com.watermelon.sso.common.ResultCode;
 import com.watermelon.sso.common.ServiceException;
-import com.watermelon.sso.entity.SystemKeyValue;
 import com.watermelon.sso.entity.SysSystem;
+import com.watermelon.sso.entity.SystemKeyValue;
 import com.watermelon.sso.entity.common.PageResult;
 import com.watermelon.sso.entity.request.ConfigDtoRequest;
 import com.watermelon.sso.entity.request.ConfigQueryRequest;
 import com.watermelon.sso.entity.response.PageResponse;
 import com.watermelon.sso.entity.response.SystemKeyValueResponse;
-
 import com.watermelon.sso.mapper.SysSystemMapper;
 import com.watermelon.sso.mapper.SystemKeyValueMapper;
 import com.watermelon.sso.service.SystemKeyValueService;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**

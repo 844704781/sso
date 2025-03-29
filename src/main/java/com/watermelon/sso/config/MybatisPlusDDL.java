@@ -14,13 +14,12 @@ import java.util.List;
 @Component
 
 public class MybatisPlusDDL extends SimpleDdl {
+    private final static String ddlPath = "db/migration/";
     private final ResourceLoader resourceLoader;
 
     public MybatisPlusDDL(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
-
-    private final static String ddlPath = "db/migration/";
 
     @Override
 

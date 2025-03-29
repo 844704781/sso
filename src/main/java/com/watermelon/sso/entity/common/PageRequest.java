@@ -1,10 +1,9 @@
 package com.watermelon.sso.entity.common;
 
-import lombok.Data;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
  * 分页请求基类

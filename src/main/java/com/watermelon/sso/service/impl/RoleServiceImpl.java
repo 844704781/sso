@@ -52,6 +52,18 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RolePermissionAssociationManager rolePermissionAssociationManager;
 
+    private static LambdaQueryWrapper<Role> setQueryWrapper(Long systemId, RoleQueryRequest query) {
+        // 构建查询条件
+        LambdaQueryWrapper<Role> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(Role::getSystemId, systemId);
+
+        // 添加查询条件
+        if (query != null && StringUtils.hasText(query.getName())) {
+            wrapper.like(Role::getName, query.getName());
+        }
+        return wrapper;
+    }
+
     @Override
     public PageResponse<RoleResponse> getRolePageBySystemId(Long systemId, int page, int size, RoleQueryRequest query) {
         // 检查系统是否存在
@@ -65,18 +77,6 @@ public class RoleServiceImpl implements RoleService {
         // 转换为响应对象
         PageResult<Role> result = new PageResult<>(pageResult.getTotal(), pageResult.getRecords());
         return buildRolePageResponse(result, page, size);
-    }
-
-    private static LambdaQueryWrapper<Role> setQueryWrapper(Long systemId, RoleQueryRequest query) {
-        // 构建查询条件
-        LambdaQueryWrapper<Role> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(Role::getSystemId, systemId);
-
-        // 添加查询条件
-        if (query != null && StringUtils.hasText(query.getName())) {
-            wrapper.like(Role::getName, query.getName());
-        }
-        return wrapper;
     }
 
     @Override

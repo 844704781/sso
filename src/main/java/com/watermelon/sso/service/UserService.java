@@ -52,7 +52,7 @@ public interface UserService {
      * @param request 令牌过期时间
      * @return Token信息
      */
-    TokenResponse generateUserToken(String uuid, UserTokenRequest request);
+    ApiTokenResponse generateApiToken(String uuid, UserTokenRequest request);
 
     /**
      * 管理员修改用户密码

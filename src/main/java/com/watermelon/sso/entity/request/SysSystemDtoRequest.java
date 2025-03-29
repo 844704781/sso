@@ -1,9 +1,8 @@
 package com.watermelon.sso.entity.request;
 
-import lombok.Data;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 /**
  * 系统DTO

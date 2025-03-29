@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 public class UserRegisterRequest {
-    
+
     /**
      * 邮箱地址
      */
@@ -20,14 +20,14 @@ public class UserRegisterRequest {
     @Email(message = "Invalid email format")
     @JsonProperty("email")
     private String email;
-    
+
     /**
      * 验证码
      */
     @NotBlank(message = "Verification code cannot be empty")
     @JsonProperty("verification_code")
     private String verificationCode;
-    
+
     /**
      * 密码
      */

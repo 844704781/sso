@@ -11,12 +11,10 @@ import java.util.Properties;
  */
 public class VersionBuilder<T> {
 
-    public static String version = null;
-
     private static final String GIT_PROPERTY_FILE_NAME = "git.properties";
     private static final String GIT_PROPERTY_BUILD_TIME = "git.build.time";
     private static final String GIT_PROPERTY_DESCRIBE = "git.commit.id.describe";
-
+    public static String version = null;
     public Object target;
 
     public VersionBuilder(T target) {
