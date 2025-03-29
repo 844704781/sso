@@ -1,15 +1,13 @@
 package com.watermelon.sso.web;
 
 import com.watermelon.sso.common.Result;
-import com.watermelon.sso.common.ServiceException;
 import com.watermelon.sso.entity.request.SendEmailCodeRequest;
 import com.watermelon.sso.entity.request.UserLoginRequest;
 import com.watermelon.sso.entity.request.UserRegisterRequest;
-import com.watermelon.sso.entity.request.VerifyEmailCodeRequest;
 import com.watermelon.sso.entity.response.LoginResponse;
 import com.watermelon.sso.entity.response.TokenResponse;
+import com.watermelon.sso.manager.EmailManager;
 import com.watermelon.sso.service.AuthService;
-import com.watermelon.sso.service.EmailService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthWeb {
 
     @Autowired
-    private EmailService emailService;
+    private EmailManager emailManager;
 
     @Autowired
     private AuthService authService;
@@ -37,30 +35,11 @@ public class AuthWeb {
      */
     @PostMapping("/email/code/send")
     public Result<Void> sendEmailCode(@RequestBody @Valid SendEmailCodeRequest request) {
-        try {
-            boolean success = emailService.sendVerificationCode(request.getEmail());
-            if (success) {
-                return Result.success();
-            } else {
-                return Result.error(16000, "Email sending limit exceeded");
-            }
-        } catch (Exception e) {
-            log.error("Failed to send email verification code: {}", e.getMessage());
-            return Result.error(500, "Failed to send email verification code");
-        }
-    }
-
-    /**
-     * 验证邮箱验证码
-     */
-    @PostMapping("/email/code/verify")
-    public Result<Boolean> verifyEmailCode(@RequestBody @Valid VerifyEmailCodeRequest request) {
-        try {
-            boolean valid = emailService.verifyEmailCode(request.getEmail(), request.getCode());
-            return Result.success(valid);
-        } catch (Exception e) {
-            log.error("Failed to verify email code: {}", e.getMessage());
-            return Result.error(500, "Failed to verify email code");
+        boolean success = emailManager.sendVerificationCode(request.getEmail());
+        if (success) {
+            return Result.success();
+        } else {
+            return Result.error(16000, "Email sending limit exceeded");
         }
     }
 
@@ -69,16 +48,8 @@ public class AuthWeb {
      */
     @PostMapping("/register")
     public Result<LoginResponse> register(@RequestBody @Valid UserRegisterRequest request) {
-        try {
-            LoginResponse response = authService.register(request);
-            return Result.success(response);
-        } catch (ServiceException e) {
-            log.error("Registration failed: {}", e.getMessage());
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            log.error("Registration failed with unexpected error: {}", e.getMessage());
-            return Result.error(500, "Registration failed");
-        }
+        LoginResponse response = authService.register(request);
+        return Result.success(response);
     }
 
     /**
@@ -86,16 +57,8 @@ public class AuthWeb {
      */
     @PostMapping("/login")
     public Result<LoginResponse> login(@RequestBody @Valid UserLoginRequest request) {
-        try {
-            LoginResponse response = authService.login(request);
-            return Result.success(response);
-        } catch (ServiceException e) {
-            log.error("Login failed: {}", e.getMessage());
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            log.error("Login failed with unexpected error: {}", e.getMessage());
-            return Result.error(500, "Login failed");
-        }
+        LoginResponse response = authService.login(request);
+        return Result.success(response);
     }
 
     /**
@@ -103,13 +66,8 @@ public class AuthWeb {
      */
     @PostMapping("/logout")
     public Result<Boolean> logout(@RequestHeader(value = "Access-Token", required = false) String token) {
-        try {
-            boolean success = authService.logout(token);
-            return Result.success(success);
-        } catch (Exception e) {
-            log.error("Logout failed: {}", e.getMessage());
-            return Result.error(500, "Logout failed");
-        }
+        boolean success = authService.logout(token);
+        return Result.success(success);
     }
 
     /**
@@ -117,15 +75,7 @@ public class AuthWeb {
      */
     @PostMapping("/token/refresh")
     public Result<TokenResponse> refreshToken(@RequestHeader(value = "Access-Token", required = false) String token) {
-        try {
-            TokenResponse response = authService.refreshToken(token);
-            return Result.success(response);
-        } catch (ServiceException e) {
-            log.error("Token refresh failed: {}", e.getMessage());
-            return Result.error(e.getCode(), e.getMessage());
-        } catch (Exception e) {
-            log.error("Token refresh failed with unexpected error: {}", e.getMessage());
-            return Result.error(500, "Token refresh failed");
-        }
+        TokenResponse response = authService.refreshToken(token);
+        return Result.success(response);
     }
 } 

@@ -10,9 +10,9 @@ import com.watermelon.sso.entity.request.UserRegisterRequest;
 import com.watermelon.sso.entity.response.LoginResponse;
 import com.watermelon.sso.entity.response.TokenResponse;
 import com.watermelon.sso.manager.AccessTokenManager;
+import com.watermelon.sso.manager.EmailManager;
 import com.watermelon.sso.manager.UserManager;
 import com.watermelon.sso.service.AuthService;
-import com.watermelon.sso.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ import java.util.Map;
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
-    private EmailService emailService;
+    private EmailManager emailManager;
 
     @Autowired
     private UserManager userManager;
@@ -87,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public LoginResponse register(UserRegisterRequest request) {
         // 验证邮箱验证码
-        boolean valid = emailService.verifyEmailCode(request.getEmail(), request.getVerificationCode());
+        boolean valid = emailManager.verifyEmailCode(request.getEmail(), request.getVerificationCode());
         if (!valid) {
             throw new ServiceException(ResultCode.EMAIL_CODE_INVALID, "Invalid verification code");
         }

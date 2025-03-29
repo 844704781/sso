@@ -1,6 +1,7 @@
-package com.watermelon.sso.service.impl;
+package com.watermelon.sso.manager;
 
-import com.watermelon.sso.service.EmailService;
+import com.watermelon.sso.common.ResultCode;
+import com.watermelon.sso.common.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @Slf4j
-public class EmailServiceImpl implements EmailService {
+public class EmailManager {
 
     // 验证码过期时间（分钟）
     private static final int CODE_EXPIRE_MINUTES = 5;
@@ -42,7 +43,6 @@ public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}")
     private String mailFrom;
 
-    @Override
     public boolean sendVerificationCode(String email) {
         try {
             // 检查发送频率限制
@@ -84,11 +84,10 @@ public class EmailServiceImpl implements EmailService {
             return true;
         } catch (Exception e) {
             log.error("Failed to send verification code to email: {}", email, e);
-            return false;
+            throw new ServiceException(ResultCode.EMAIL_SEND_LIMIT_EXCEEDED, "Email send limit exceeded");
         }
     }
 
-    @Override
     public boolean verifyEmailCode(String email, String code) {
         if (email == null || code == null) {
             return false;
