@@ -14,13 +14,19 @@ public class PageResponse<T> {
      */
     private long total;
 
+    private long page;
+
+    private long size;
+
     /**
      * 结果列表
      */
     private List<T> result;
 
-    public PageResponse(long total, List<T> result) {
-        this.total = total;
+    public PageResponse(List<T> result, long total, long page, long size) {
         this.result = result;
+        this.total = total;
+        this.page = page;
+        this.size = size;
     }
 } 

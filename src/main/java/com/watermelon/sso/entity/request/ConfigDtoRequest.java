@@ -18,7 +18,7 @@ public class ConfigDtoRequest {
     @Size(max = 32, message = "Config key length cannot exceed 32 characters")
     @JsonProperty("key")
     private String key;
-    
+
     /**
      * 配置值
      */
@@ -26,7 +26,7 @@ public class ConfigDtoRequest {
     @Size(max = 4096, message = "Config value length cannot exceed 4096 characters")
     @JsonProperty("value")
     private String value;
-    
+
     /**
      * 配置名称
      */
@@ -34,7 +34,7 @@ public class ConfigDtoRequest {
     @Size(max = 64, message = "Config name length cannot exceed 64 characters")
     @JsonProperty("name")
     private String name;
-    
+
     /**
      * 备注
      */

@@ -1,39 +1,55 @@
 package com.watermelon.sso.entity.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
- * 权限响应对象
+ * 权限响应
  */
 @Data
 public class PermissionResponse {
+
     /**
-     * 主键ID
+     * ID
      */
+    @JsonProperty("id")
     private Long id;
-    
+
     /**
      * 权限名称
      */
+    @JsonProperty("name")
     private String name;
-    
+
     /**
-     * 权限URL
+     * URL地址
      */
+    @JsonProperty("url")
     private String url;
-    
+
     /**
-     * 系统编号
+     * 系统ID
      */
+    @JsonProperty("system_id")
     private Long systemId;
-    
+
+    /**
+     * 是否读取所有数据（0-否，1-是）
+     */
+    @JsonProperty("read_all")
+    private Integer readAll;
+
     /**
      * 创建时间
      */
-    private Long createTime;
-    
+    @JsonProperty("create_time")
+    private LocalDateTime createTime;
+
     /**
      * 更新时间
      */
-    private Long updateTime;
+    @JsonProperty("update_time")
+    private LocalDateTime updateTime;
 } 

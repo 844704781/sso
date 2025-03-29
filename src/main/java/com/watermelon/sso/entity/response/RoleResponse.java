@@ -1,34 +1,43 @@
 package com.watermelon.sso.entity.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
- * 角色响应对象
+ * 角色响应
  */
 @Data
 public class RoleResponse {
+
     /**
-     * 主键ID
+     * ID
      */
+    @JsonProperty("id")
     private Long id;
-    
+
     /**
      * 角色名称
      */
+    @JsonProperty("name")
     private String name;
-    
+
     /**
-     * 系统编号
+     * 系统ID
      */
+    @JsonProperty("system_id")
     private Long systemId;
-    
+
     /**
      * 创建时间
      */
-    private Long createTime;
-    
+    @JsonProperty("create_time")
+    private LocalDateTime createTime;
+
     /**
      * 更新时间
      */
-    private Long updateTime;
+    @JsonProperty("update_time")
+    private LocalDateTime updateTime;
 } 

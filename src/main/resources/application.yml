@@ -5,6 +5,26 @@ spring:
     url: jdbc:mysql://192.168.1.11:3306/sso?useSSL=false&&characterEncoding=UTF-8
     username: root
     password: 123123
+  # 邮箱配置
+  mail:
+    host: smtp.exmail.qq.com
+    port: 465
+    username: service@arcnisoft.com
+    password: Yeyuan123...
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  # Redis配置
+  data:
+    redis:
+      host: 192.168.1.11
+      port: 6379
+      password: 123123
+      timeout: 2000
+      database: 0
 
 server:
   servlet:

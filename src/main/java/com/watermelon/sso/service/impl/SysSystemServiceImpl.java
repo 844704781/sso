@@ -41,7 +41,7 @@ public class SysSystemServiceImpl implements SysSystemService {
 
         // 转换为响应对象
         PageResult<SysSystem> result = new PageResult<>(pageResult.getTotal(), pageResult.getRecords());
-        return buildSysSystemPageResponse(result);
+        return buildSysSystemPageResponse(result, page, size);
     }
 
     private QueryWrapper<SysSystem> setQueryWrapper(SysSystemQueryRequest request) {
@@ -81,13 +81,13 @@ public class SysSystemServiceImpl implements SysSystemService {
     /**
      * 将SysSystem分页结果转换为SysSystemResponse分页响应
      */
-    private PageResponse<SysSystemResponse> buildSysSystemPageResponse(PageResult<SysSystem> pageResult) {
+    private PageResponse<SysSystemResponse> buildSysSystemPageResponse(PageResult<SysSystem> pageResult, long page, long size) {
         if (pageResult == null) {
             return null;
         }
 
         List<SysSystemResponse> responseList = toSysSystemResponseList(pageResult.getResult());
-        return new PageResponse<>(pageResult.getTotal(), responseList);
+        return new PageResponse<>(responseList, pageResult.getTotal(), page, size);
     }
 
     @Override

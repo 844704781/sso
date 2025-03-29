@@ -11,17 +11,17 @@ import java.util.List;
  */
 @Data
 public class RolePermissionAssociationRequest {
-    
+
     /**
      * 角色ID（批量操作时使用）
      */
     @JsonProperty("role_id")
     private Long roleId;
-    
+
     /**
      * 权限ID列表
      */
-    @NotEmpty(message = "权限ID列表不能为空")
+    @NotEmpty(message = "Permission ID list cannot be empty")
     @JsonProperty("permission_ids")
     private List<Long> permissionIds;
 } 

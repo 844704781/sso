@@ -8,13 +8,13 @@ import lombok.Data;
  */
 @Data
 public class ConfigQueryRequest {
-    
+
     /**
      * 键名
      */
     @JsonProperty("key")
     private String key;
-    
+
     /**
      * 备注
      */

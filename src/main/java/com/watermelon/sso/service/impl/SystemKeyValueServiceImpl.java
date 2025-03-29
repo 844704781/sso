@@ -189,7 +189,6 @@ public class SystemKeyValueServiceImpl extends ServiceImpl<SystemKeyValueMapper,
         }
 
         List<SystemKeyValueResponse> responseList = toSystemKeyValueResponseList(pageResult.getResult());
-
-        return new PageResponse<>(pageResult.getTotal(), responseList);
+        return new PageResponse<>(responseList, pageResult.getTotal(), page, size);
     }
 } 

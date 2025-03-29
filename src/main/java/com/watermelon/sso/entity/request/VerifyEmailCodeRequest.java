@@ -1,0 +1,28 @@
+package com.watermelon.sso.entity.request;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+/**
+ * 验证邮箱验证码请求
+ */
+@Data
+public class VerifyEmailCodeRequest {
+
+    /**
+     * 邮箱地址
+     */
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Invalid email format")
+    @JsonProperty("email")
+    private String email;
+
+    /**
+     * 验证码
+     */
+    @NotBlank(message = "Verification code cannot be empty")
+    @JsonProperty("code")
+    private String code;
+} 

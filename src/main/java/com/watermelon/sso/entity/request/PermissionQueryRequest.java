@@ -11,7 +11,7 @@ public class PermissionQueryRequest {
      * 权限名称关键字
      */
     private String name;
-    
+
     /**
      * URL关键字
      */

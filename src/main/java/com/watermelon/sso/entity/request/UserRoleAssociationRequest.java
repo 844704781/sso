@@ -12,17 +12,17 @@ import java.util.List;
  */
 @Data
 public class UserRoleAssociationRequest {
-    
+
     /**
      * 用户ID（批量操作时使用）
      */
     @JsonProperty("user_id")
     private Long userId;
-    
+
     /**
      * 角色ID列表
      */
-    @NotEmpty(message = "角色ID列表不能为空")
+    @NotEmpty(message = "Role ID list cannot be empty")
     @JsonProperty("role_ids")
     private List<Long> roleIds;
 } 

@@ -126,7 +126,7 @@ CREATE TABLE `system_key_value`
 ## RESTful接口设计
 ### 系统管理接口
 #### 分页获取系统列表
-- URL: `GET /api/systems`
+- URL: `GET /sso/systems`
 - 请求参数:
   ```json
   {
@@ -157,7 +157,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 创建系统
-- URL: `POST /api/systems`
+- URL: `POST /sso/systems`
 - 请求体:
   ```json
   {
@@ -179,7 +179,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 修改系统名称
-- URL: `PUT /api/systems/{system_id}`
+- URL: `PUT /sso/systems/{system_id}`
 - 请求体:
   ```json
   {
@@ -201,7 +201,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 删除系统
-- URL: `DELETE /api/systems/{system_id}`
+- URL: `DELETE /sso/systems/{system_id}`
 - 响应体:
   ```json
   {
@@ -211,7 +211,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 获取系统详情
-- URL: `GET /api/systems/{system_id}`
+- URL: `GET /sso/systems/{system_id}`
 - 响应体:
   ```json
   {
@@ -227,7 +227,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 分页获取系统下的所有角色
-- URL: `GET /api/systems/{system_id}/roles`
+- URL: `GET /sso/systems/{system_id}/roles`
 - 请求参数:
   ```json
   {
@@ -259,7 +259,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 分页获取系统下的所有权限
-- URL: `GET /api/systems/{system_id}/permissions`
+- URL: `GET /sso/systems/{system_id}/permissions`
 - 请求参数:
   ```json
   {
@@ -282,7 +282,7 @@ CREATE TABLE `system_key_value`
         {
           "id": 1,
           "name": "权限名称",
-          "url": "/api/resource",
+          "url": "/sso/resource",
           "system_id": 1,
           "create_time": 1648975479000,
           "update_time": 1648975479000
@@ -293,7 +293,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 分页获取系统下的所有配置列表
-- URL: `GET /api/systems/{system_id}/configs`
+- URL: `GET /sso/systems/{system_id}/configs`
 - 请求参数:
   ```json
   {
@@ -329,7 +329,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 查看配置详情
-- URL: `GET /api/configs/{config_id}`
+- URL: `GET /sso/configs/{config_id}`
 - 响应体:
   ```json
   {
@@ -349,7 +349,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 创建配置
-- URL: `POST /api/systems/{system_id}/configs`
+- URL: `POST /sso/systems/{system_id}/configs`
 - 请求体:
   ```json
   {
@@ -378,7 +378,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 修改配置
-- URL: `PUT /api/configs/{config_id}`
+- URL: `PUT /sso/configs/{config_id}`
 - 请求体:
   ```json
   {
@@ -407,7 +407,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 删除配置
-- URL: `DELETE /api/configs/{config_id}`
+- URL: `DELETE /sso/configs/{config_id}`
 - 响应体:
   ```json
   {
@@ -419,7 +419,7 @@ CREATE TABLE `system_key_value`
 
 ### 用户管理接口
 #### 获取用户列表
-- URL: `GET /api/users`
+- URL: `GET /sso/users`
 - 请求参数:
   ```json
   {
@@ -463,7 +463,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 创建用户
-- URL: `POST /api/users`
+- URL: `POST /sso/users`
 - 请求体:
   ```json
   {
@@ -501,7 +501,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 暂停/开启用户
-- URL: `PUT /api/users/{uuid}/status`
+- URL: `PUT /sso/users/{uuid}/status` 
 - 请求体:
   ```json
   {
@@ -518,7 +518,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 获取用户详情
-- URL: `GET /api/users/{uuid}`
+- URL: `GET /sso/users/{uuid}`
 - 响应体:
   ```json
   {
@@ -543,7 +543,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 生成用户的api-token
-- URL: `POST /api/users/{uuid}/token`
+- URL: `POST /sso/users/{uuid}/token`
 - 请求体:
   ```json
   {
@@ -563,7 +563,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 管理员修改用户密码
-- URL: `PUT /api/users/{uuid}/password`
+- URL: `PUT /sso/users/{uuid}/password`
 - 请求体:
   ```json
   {
@@ -580,7 +580,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 获取用户角色
-- URL: `GET /api/users/{uuid}/roles`
+- URL: `GET /sso/users/{uuid}/roles`
 - 响应体:
   ```json
   {
@@ -599,7 +599,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 获取系统所有角色(无需分页)
-- URL: `GET /api/systems/{system_id}/all-roles`
+- URL: `GET /sso/systems/{system_id}/all-roles`
 - 响应体:
   ```json
   {
@@ -618,7 +618,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 设置用户角色
-- URL: `PUT /api/users/{uuid}/roles`
+- URL: `PUT /sso/users/{uuid}/roles`
 - 请求体:
   ```json
   {
@@ -635,7 +635,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 获取系统所有权限
-- URL: `GET /api/systems/{system_id}/all-permissions`
+- URL: `GET /sso/systems/{system_id}/all-permissions`
 - 响应体:
   ```json
   {
@@ -645,7 +645,7 @@ CREATE TABLE `system_key_value`
       {
         "id": 1,
         "name": "权限名称",
-        "url": "/api/resource",
+        "url": "/sso/resource",
         "system_id": 1,
         "create_time": 1648975479000,
         "update_time": 1648975479000
@@ -655,7 +655,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 获取用户权限
-- URL: `GET /api/users/{uuid}/permissions`
+- URL: `GET /sso/users/{uuid}/permissions`
 - 请求参数:
   ```json
   {
@@ -671,7 +671,7 @@ CREATE TABLE `system_key_value`
       {
         "id": 1,
         "name": "权限名称",
-        "url": "/api/resource",
+        "url": "/sso/resource",
         "system_id": 1,
         "read_all": 1,
         "create_time": 1648975479000,
@@ -683,7 +683,7 @@ CREATE TABLE `system_key_value`
 
 ### 角色管理接口
 #### 分页获取系统所有角色列表
-- URL: `GET /api/systems/{system_id}/roles`
+- URL: `GET /sso/systems/{system_id}/roles`
 - 请求参数:
   ```json
   {
@@ -715,7 +715,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 创建角色
-- URL: `POST /api/systems/{system_id}/roles`
+- URL: `POST /sso/systems/{system_id}/roles`
 - 请求体:
   ```json
   {
@@ -738,7 +738,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 删除角色
-- URL: `DELETE /api/roles/{role_id}`
+- URL: `DELETE /sso/roles/{role_id}`
 - 响应体:
   ```json
   {
@@ -749,7 +749,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 获取角色详情
-- URL: `GET /api/roles/{role_id}`
+- URL: `GET /sso/roles/{role_id}`
 - 响应体:
   ```json
   {
@@ -766,7 +766,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 修改角色名称
-- URL: `PUT /api/roles/{role_id}`
+- URL: `PUT /sso/roles/{role_id}`
 - 请求体:
   ```json
   {
@@ -789,7 +789,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 获取角色对应的权限
-- URL: `GET /api/roles/{role_id}/permissions`
+- URL: `GET /sso/roles/{role_id}/permissions`
 - 响应体:
   ```json
   {
@@ -804,7 +804,7 @@ CREATE TABLE `system_key_value`
         "permission": {
           "id": 1,
           "name": "权限名称",
-          "url": "/api/resource",
+          "url": "/sso/resource",
           "system_id": 1
         }
       }
@@ -813,7 +813,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 获取当前角色对应的系统的所有权限
-- URL: `GET /api/roles/{role_id}/system-permissions`
+- URL: `GET /sso/roles/{role_id}/system-permissions`
 - 响应体:
   ```json
   {
@@ -823,7 +823,7 @@ CREATE TABLE `system_key_value`
       {
         "id": 1,
         "name": "权限名称",
-        "url": "/api/resource",
+        "url": "/sso/resource",
         "system_id": 1,
         "create_time": 1648975479000,
         "update_time": 1648975479000
@@ -833,7 +833,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 设置当前角色的权限
-- URL: `PUT /api/roles/{role_id}/permissions`
+- URL: `PUT /sso/roles/{role_id}/permissions`
 - 请求体:
   ```json
   {
@@ -860,7 +860,7 @@ CREATE TABLE `system_key_value`
 
 ### 权限管理接口
 #### 分页获取系统权限列表
-- URL: `GET /api/systems/{system_id}/permissions`
+- URL: `GET /sso/systems/{system_id}/permissions`
 - 请求参数:
   ```json
   {
@@ -883,7 +883,7 @@ CREATE TABLE `system_key_value`
         {
           "id": 1,
           "name": "权限名称",
-          "url": "/api/resource",
+          "url": "/sso/resource",
           "system_id": 1,
           "create_time": 1648975479000,
           "update_time": 1648975479000
@@ -894,12 +894,12 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 创建权限
-- URL: `POST /api/systems/{system_id}/permissions`
+- URL: `POST /sso/systems/{system_id}/permissions`
 - 请求体:
   ```json
   {
     "name": "权限名称",
-    "url": "/api/resource"
+    "url": "/sso/resource"
   }
   ```
 - 响应体:
@@ -910,7 +910,7 @@ CREATE TABLE `system_key_value`
     "data": {
       "id": 1,
       "name": "权限名称",
-      "url": "/api/resource",
+      "url": "/sso/resource",
       "system_id": 1,
       "create_time": 1648975479000,
       "update_time": 1648975479000
@@ -919,7 +919,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 删除权限
-- URL: `DELETE /api/permissions/{permission_id}`
+- URL: `DELETE /sso/permissions/{permission_id}`
 - 响应体:
   ```json
   {
@@ -930,7 +930,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 获取权限详情
-- URL: `GET /api/permissions/{permission_id}`
+- URL: `GET /sso/permissions/{permission_id}`
 - 响应体:
   ```json
   {
@@ -939,7 +939,7 @@ CREATE TABLE `system_key_value`
     "data": {
       "id": 1,
       "name": "权限名称",
-      "url": "/api/resource",
+      "url": "/sso/resource",
       "system_id": 1,
       "create_time": 1648975479000,
       "update_time": 1648975479000
@@ -948,12 +948,12 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 修改权限信息
-- URL: `PUT /api/permissions/{permission_id}`
+- URL: `PUT /sso/permissions/{permission_id}`
 - 请求体:
   ```json
   {
     "name": "新权限名称",
-    "url": "/api/new-resource"
+    "url": "/sso/new-resource"
   }
   ```
 - 响应体:
@@ -964,7 +964,7 @@ CREATE TABLE `system_key_value`
     "data": {
       "id": 1,
       "name": "新权限名称",
-      "url": "/api/new-resource",
+      "url": "/sso/new-resource",
       "system_id": 1,
       "create_time": 1648975479000,
       "update_time": 1649061879000
@@ -974,7 +974,7 @@ CREATE TABLE `system_key_value`
 
 ### 认证接口
 #### 发送邮箱验证码
-- URL: `POST /api/auth/email/code`
+- URL: `POST /sso/auth/email/code`
 - 请求体:
   ```json
   {
@@ -991,7 +991,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 用户邮箱注册
-- URL: `POST /api/auth/register`
+- URL: `POST /sso/auth/register`
 - 请求体:
   ```json
   {
@@ -1016,7 +1016,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 用户邮箱登录
-- URL: `POST /api/auth/login`
+- URL: `POST /sso/auth/login`
 - 请求体:
   ```json
   {
@@ -1041,7 +1041,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 退出登录
-- URL: `POST /api/auth/logout`
+- URL: `POST /sso/auth/logout`
 - 请求头:
   ```
   Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
@@ -1056,7 +1056,7 @@ CREATE TABLE `system_key_value`
   ```
 
 #### 刷新令牌
-- URL: `POST /api/auth/token/refresh`
+- URL: `POST /sso/auth/token/refresh`
 - 请求头:
   ```
   Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
