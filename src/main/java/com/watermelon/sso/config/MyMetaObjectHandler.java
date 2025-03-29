@@ -15,7 +15,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     private void setFiledByName(MetaObject metaObject, String name) {
         if (metaObject.hasGetter(name)) {
             if (metaObject.getGetterType(name).getTypeName().equals(Long.class.getTypeName())) {
-                this.setFieldValByName(name, System.currentTimeMillis() / 1000, metaObject);
+                this.setFieldValByName(name, System.currentTimeMillis(), metaObject);
             } else {
                 this.setFieldValByName(name, new Date(), metaObject);
             }
@@ -23,14 +23,12 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     }
 
     @Override
-
     public void insertFill(MetaObject metaObject) {
         setFiledByName(metaObject, "createTime");
         updateFill(metaObject);
     }
 
     @Override
-
     public void updateFill(MetaObject metaObject) {
         setFiledByName(metaObject, "updateTime");
     }
