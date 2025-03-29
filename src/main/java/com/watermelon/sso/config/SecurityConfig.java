@@ -35,14 +35,14 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())  // 禁用CSRF保护，因为是API服务
+        http.csrf(csrf -> csrf.disable())
+                .formLogin(form -> form.disable())
+                .httpBasic(basic -> basic.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()  // 允许所有请求，认证由自定义逻辑处理
-                )
-                .formLogin(form -> form.disable())  // 禁用表单登录
-                .httpBasic(basic -> basic.disable());  // 禁用HTTP Basic认证
-
+                        .requestMatchers("/sso/auth/**").permitAll()
+                        // 添加其他公共端点
+                        .anyRequest().authenticated()
+                );
         return http.build();
     }
 } 

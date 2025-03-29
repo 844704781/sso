@@ -1,10 +1,12 @@
 package com.watermelon.sso.entity.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+
+
 
 /**
  * 发送邮箱验证码请求

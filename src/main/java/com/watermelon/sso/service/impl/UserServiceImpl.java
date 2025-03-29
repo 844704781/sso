@@ -51,9 +51,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private TokenService tokenService;
-
     private static LambdaQueryWrapper<User> setQueryWrapper(UserQueryRequest request) {
         LambdaQueryWrapper<User> wrapper = Wrappers.lambdaQuery();
 
