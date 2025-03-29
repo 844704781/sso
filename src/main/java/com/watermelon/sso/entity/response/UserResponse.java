@@ -3,8 +3,6 @@ package com.watermelon.sso.entity.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 /**
  * 用户响应
  */
@@ -75,17 +73,17 @@ public class UserResponse {
      * 最后在线时间
      */
     @JsonProperty("last_online_time")
-    private LocalDateTime lastOnlineTime;
+    private Long lastOnlineTime;
 
     /**
      * 创建时间
      */
     @JsonProperty("create_time")
-    private LocalDateTime createTime;
+    private Long createTime;
 
     /**
      * 更新时间
      */
     @JsonProperty("update_time")
-    private LocalDateTime updateTime;
+    private Long updateTime;
 } 

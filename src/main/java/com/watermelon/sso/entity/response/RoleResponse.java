@@ -3,8 +3,6 @@ package com.watermelon.sso.entity.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 /**
  * 角色响应
  */
@@ -33,11 +31,11 @@ public class RoleResponse {
      * 创建时间
      */
     @JsonProperty("create_time")
-    private LocalDateTime createTime;
+    private Long createTime;
 
     /**
      * 更新时间
      */
     @JsonProperty("update_time")
-    private LocalDateTime updateTime;
+    private Long updateTime;
 } 

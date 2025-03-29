@@ -269,18 +269,6 @@ public class RoleServiceImpl implements RoleService {
         RoleResponse response = new RoleResponse();
         BeanUtils.copyProperties(entity, response);
 
-        // 时间戳转LocalDateTime
-        if (entity.getCreateTime() != null) {
-            response.setCreateTime(LocalDateTime.ofInstant(
-                    Instant.ofEpochMilli(entity.getCreateTime()),
-                    ZoneId.systemDefault()));
-        }
-        if (entity.getUpdateTime() != null) {
-            response.setUpdateTime(LocalDateTime.ofInstant(
-                    Instant.ofEpochMilli(entity.getUpdateTime()),
-                    ZoneId.systemDefault()));
-        }
-
         return response;
     }
 
@@ -319,18 +307,6 @@ public class RoleServiceImpl implements RoleService {
 
         PermissionResponse response = new PermissionResponse();
         BeanUtils.copyProperties(entity, response);
-
-        // 时间戳转LocalDateTime
-        if (entity.getCreateTime() != null) {
-            response.setCreateTime(LocalDateTime.ofInstant(
-                    Instant.ofEpochMilli(entity.getCreateTime()),
-                    ZoneId.systemDefault()));
-        }
-        if (entity.getUpdateTime() != null) {
-            response.setUpdateTime(LocalDateTime.ofInstant(
-                    Instant.ofEpochMilli(entity.getUpdateTime()),
-                    ZoneId.systemDefault()));
-        }
 
         return response;
     }

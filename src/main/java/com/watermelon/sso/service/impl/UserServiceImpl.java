@@ -331,23 +331,6 @@ public class UserServiceImpl implements UserService {
         UserResponse response = new UserResponse();
         BeanUtils.copyProperties(entity, response);
 
-        // 时间戳转LocalDateTime
-        if (entity.getCreateTime() != null) {
-            response.setCreateTime(LocalDateTime.ofInstant(
-                    Instant.ofEpochMilli(entity.getCreateTime()),
-                    ZoneId.systemDefault()));
-        }
-        if (entity.getUpdateTime() != null) {
-            response.setUpdateTime(LocalDateTime.ofInstant(
-                    Instant.ofEpochMilli(entity.getUpdateTime()),
-                    ZoneId.systemDefault()));
-        }
-        if (entity.getLastOnlineTime() != null) {
-            response.setLastOnlineTime(LocalDateTime.ofInstant(
-                    Instant.ofEpochMilli(entity.getLastOnlineTime()),
-                    ZoneId.systemDefault()));
-        }
-
         return response;
     }
 
@@ -387,18 +370,6 @@ public class UserServiceImpl implements UserService {
         RoleResponse response = new RoleResponse();
         BeanUtils.copyProperties(entity, response);
 
-        // 时间戳转LocalDateTime
-        if (entity.getCreateTime() != null) {
-            response.setCreateTime(LocalDateTime.ofInstant(
-                    Instant.ofEpochMilli(entity.getCreateTime()),
-                    ZoneId.systemDefault()));
-        }
-        if (entity.getUpdateTime() != null) {
-            response.setUpdateTime(LocalDateTime.ofInstant(
-                    Instant.ofEpochMilli(entity.getUpdateTime()),
-                    ZoneId.systemDefault()));
-        }
-
         return response;
     }
 
@@ -412,18 +383,6 @@ public class UserServiceImpl implements UserService {
 
         PermissionResponse response = new PermissionResponse();
         BeanUtils.copyProperties(entity, response);
-
-        // 时间戳转LocalDateTime
-        if (entity.getCreateTime() != null) {
-            response.setCreateTime(LocalDateTime.ofInstant(
-                    Instant.ofEpochMilli(entity.getCreateTime()),
-                    ZoneId.systemDefault()));
-        }
-        if (entity.getUpdateTime() != null) {
-            response.setUpdateTime(LocalDateTime.ofInstant(
-                    Instant.ofEpochMilli(entity.getUpdateTime()),
-                    ZoneId.systemDefault()));
-        }
 
         return response;
     }
